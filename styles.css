@@ -21,7 +21,7 @@ body {
     position: relative;
     height: 98%;
     width: 100%;
-    background-color: #b1e2e2;
+    background-color: #f0e39d;
     border-radius: 5px;
     overflow: hidden;
     outline: 5px solid #333;
@@ -48,7 +48,7 @@ body {
     left: calc(50% - 150px / 2);
     width: 150px;
     height: 20px;
-    background-color: #dAA520;
+    background-color: #7a6f09;
     border-radius: 10px;
 }
 #ball {
@@ -57,7 +57,7 @@ body {
     left: calc(50% - 20px / 2);
     width: 20px;
     height: 20px;
-    background-color: #333;
+    background-color: #860303;
     border-radius: 50%;
     border: 1px solid #fff;
 }
