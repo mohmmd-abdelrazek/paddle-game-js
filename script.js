@@ -8,8 +8,8 @@ levelElement = document.getElementById("level")
 
 let level = localStorage.getItem("level") || 1,
 boardSpeed= 10,
-ballSpeedX= 10 + level * 2,
-ballSpeedY= 10 + level * 2,
+ballSpeedX= 8 + +level,
+ballSpeedY= 8 + +level,
 boardX= container.offsetWidth / 2 - board.offsetWidth / 2,
 ballX= container.offsetWidth / 2 - ball.offsetWidth / 2,
 ballY= container.offsetHeight - board.offsetHeight - ball.offsetHeight - 20,
@@ -39,12 +39,18 @@ function move() {
         ballSpeedX *= -1;
     }
 
-    if (board.offsetTop - ball.offsetHeight == ball.offsetTop &&
-        board.offsetLeft - ball.offsetWidth <= ball.offsetLeft &&
-        board.offsetLeft + board.offsetWidth >= ball.offsetLeft) {
-        ballSpeedY *= -1;
-        score++;
-        scoreElement.innerHTML = score;
+    if (board.offsetTop - ball.offsetHeight == ball.offsetTop) {
+        if (leftBoardCollision() || rightBoardCollision() || centerBoardCollision()) {
+            ballSpeedY *= -1;
+            score++;
+            scoreElement.innerHTML = score;
+            if (leftBoardCollision() && ballSpeedX > 0) {
+                ballSpeedX *= -1;
+            } else if (rightBoardCollision() && ballSpeedX < 0) {
+                ballSpeedX *= -1;
+            }
+        }
+        
     }
     
     if (score == 5 && level < 10) {
@@ -68,8 +74,8 @@ function startGame() {
     }
     isGameRunning = true;
     boardSpeed = 10;
-    ballSpeedX= 10 + level * 2;
-    ballSpeedY= 10 + level * 2;
+    ballSpeedX= 8 + +level;
+    ballSpeedY= 8 + +level;
     boardX = container.offsetWidth / 2 - board.offsetWidth / 2;
     ballX = container.offsetWidth / 2 - ball.offsetWidth / 2;
     ballY = container.offsetHeight - board.offsetHeight - ball.offsetHeight - 20;
@@ -79,6 +85,20 @@ function startGame() {
     scoreElement.innerHTML = score;
     animationFrameId = requestAnimationFrame(move);
 }
+
+function leftBoardCollision() {
+    return board.offsetLeft - ball.offsetWidth <= ball.offsetLeft &&
+    board.offsetLeft + board.offsetWidth / 2 > ball.offsetLeft + ball.offsetWidth / 2;
+}
+function rightBoardCollision() {
+    return board.offsetLeft + board.offsetWidth / 2 < ball.offsetLeft + ball.offsetWidth / 2 &&
+    board.offsetLeft + board.offsetWidth >= ball.offsetLeft;
+}
+function centerBoardCollision() {
+    return board.offsetLeft + board.offsetWidth / 2 == ball.offsetLeft + ball.offsetWidth / 2;
+    
+}
+
 
 function pauseGame() {
     isGamePaused = !isGamePaused;
@@ -101,8 +121,8 @@ function finishLevel() {
     level++;
     localStorage.setItem("level", level);
     levelElement.innerHTML = level; 
-    ballSpeedX > 0 ? ballSpeedX= 10 + level * 2 : ballSpeedX= -10 - level * 2;
-    ballSpeedY > 0 ? ballSpeedY= 10 + level * 2 : ballSpeedY= -10 - level * 2;
+    ballSpeedX > 0 ? ballSpeedX = 8 + +level : ballSpeedX = -8 - +level;
+    ballSpeedY > 0 ? ballSpeedY = 8 + +level : ballSpeedY = -8 - +level;
     score = 0;
     scoreElement.innerHTML = score;
 }
