@@ -1,29 +1,26 @@
-const container = document.getElementById("game-container");
-const board = document.getElementById("board");
-const ball = document.getElementById("ball");
-const gameOverScreen = document.getElementById("game-over");
-const startPage = document.getElementById("start-page");
-const scoreElement = document.getElementById("score");
-const levelElement = document.getElementById("level");
+const container = document.getElementById("game-container"),
+board = document.getElementById("board"),
+ball = document.getElementById("ball"),
+gameOverScreen = document.getElementById("game-over"),
+startPage = document.getElementById("start-page"),
+scoreElement = document.getElementById("score"),
+levelElement = document.getElementById("level")
 
-let level = localStorage.getItem("level") || 1;
+let level = localStorage.getItem("level") || 1,
+boardSpeed= 10,
+ballSpeedX= 10 + level * 2,
+ballSpeedY= 10 + level * 2,
+boardX= container.offsetWidth / 2 - board.offsetWidth / 2,
+ballX= container.offsetWidth / 2 - ball.offsetWidth / 2,
+ballY= container.offsetHeight - board.offsetHeight - ball.offsetHeight - 20,
+score = 0,
+isLeftArrowPressed = false,
+isRightArrowPressed = false,
+isGameRunning = false,
+isGamePaused = false,
+animationFrameId;
+
 levelElement.innerHTML = level;
-let initialState = {
-    boardSpeed: 10,
-    ballSpeedX: 10 + level * 2,
-    ballSpeedY: 10 + level * 2,
-    boardX: container.offsetWidth / 2 - board.offsetWidth / 2,
-    ballX: container.offsetWidth / 2 - ball.offsetWidth / 2,
-    ballY: container.offsetHeight - board.offsetHeight - ball.offsetHeight - 20
-};
-let { boardSpeed, ballSpeedX, ballSpeedY, boardX, ballX, ballY } = initialState;
-let score = 0;
-
-let isLeftArrowPressed = false;
-let isRightArrowPressed = false;
-let isGameRunning = false;
-let isGamePaused = false;
-let animationFrameId;
 
 function move() {
     if (!isGameRunning || isGamePaused) return;
@@ -84,15 +81,9 @@ function startGame() {
 }
 
 function pauseGame() {
-    if (!isGamePaused) {
-        isGamePaused = true;
-        cancelAnimationFrame(animationFrameId);
-        document.getElementById("pause-button").innerHTML = "&#9658;";
-    } else{
-        isGamePaused = false;
-        animationFrameId = requestAnimationFrame(move);
-        document.getElementById("pause-button").innerHTML = "||";
-    }
+    isGamePaused = !isGamePaused;
+    document.getElementById("pause-button").textContent = isGamePaused ? "&#9658;" : "||";
+    isGamePaused ? cancelAnimationFrame(animationFrameId) : animationFrameId = requestAnimationFrame(move);
 }
 
 function gameOver() {
@@ -101,8 +92,6 @@ function gameOver() {
     cancelAnimationFrame(animationFrameId);
     gameOverScreen.style.display = "flex";
     document.getElementById("pause-button").style.display = "none";
-    localStorage.setItem("level", level);
-    levelElement.innerHTML = level;
     if (level == 10 && score == 5) {
       document.querySelector(".game-over__text").innerHTML = "You win!";
     }    
@@ -111,7 +100,9 @@ function gameOver() {
 function finishLevel() {
     level++;
     localStorage.setItem("level", level);
-    levelElement.innerHTML = level;
+    levelElement.innerHTML = level; 
+    ballSpeedX > 0 ? ballSpeedX= 10 + level * 2 : ballSpeedX= -10 - level * 2;
+    ballSpeedY > 0 ? ballSpeedY= 10 + level * 2 : ballSpeedY= -10 - level * 2;
     score = 0;
     scoreElement.innerHTML = score;
 }
@@ -126,26 +117,19 @@ function cancelGame() {
     gameOverScreen.style.display = "none"; 
     score = 0;
     scoreElement.innerHTML = score;
+    level == 10 && (level = 1);
+    localStorage.setItem("level", level);
+    levelElement.innerHTML = level;
 }
 
-function handleKeyDown(event) {
-    if (event.key === "ArrowLeft") {
-        isLeftArrowPressed = true;
-    } else if (event.key === "ArrowRight") {
-        isRightArrowPressed = true;
-    }
+function handleKey(event, isDown) {
+    if (event.key === "ArrowLeft") isLeftArrowPressed = isDown;
+    if (event.key === "ArrowRight") isRightArrowPressed = isDown;
 }
 
-function handleKeyUp(event) {
-    if (event.key === "ArrowLeft") {
-        isLeftArrowPressed = false;
-    } else if (event.key === "ArrowRight") {
-        isRightArrowPressed = false;
-    }
-}
+document.addEventListener("keydown", (e) => handleKey(e, true));
+document.addEventListener("keyup", (e) => handleKey(e, false));
 
-document.addEventListener("keydown", handleKeyDown);
-document.addEventListener("keyup", handleKeyUp);
 
 document.getElementById("start-button").addEventListener("click", startGame);
 document.getElementById("pause-button").addEventListener("click", pauseGame);
