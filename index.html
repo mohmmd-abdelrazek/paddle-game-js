@@ -7,26 +7,27 @@
     <title>Ball Game</title>
   </head>
   <body>
+    <div id="container">
+      <div id="header">
+        <div>Score: <span id="score">0</span></div>
+        <div>Level: <span id="level">1</span></div>
+        <button class="button" id="pause-button">||</button>
+      </div>
       <div id="game-container">
           <div id="board"></div>
-          <div id="ball"></div>
-          <div id="header">
-            <div>Score: <span id="score">0</span></div>
-            <button class="button" id="pause-button">||</button>
-            <div>Level: <span id="level">1</span></div>
+          <div id="ball"></div>   
+      </div>
+      <div id="start-page">
+          <button class="button" id="start-button">Start</button>
+      </div>
+      <div id="game-over">
+          <h1 class="game-over__text">Game Over</h1>
+          <div class="button-container">
+            <button class="button" id="restart-button">Restart</button>
+            <button class="button" id="cancel-button">Cancel</button>     
           </div>
-              
-          <div id="start-page">
-              <button class="button" id="start-button">Start</button>
-          </div>
-          <div id="game-over">
-              <h1 class="game-over__text">Game Over</h1>
-              <div class="button-container">
-                <button class="button" id="restart-button">Restart</button>
-                <button class="button" id="cancel-button">Cancel</button>     
-              </div>
-          </div>
-    </div>
+      </div>
+  </div>
     <script src="script.js"></script>
   </body>
 </html>

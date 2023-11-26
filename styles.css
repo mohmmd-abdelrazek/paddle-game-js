@@ -9,6 +9,7 @@
 }
 
 body {
+    background: linear-gradient(to right, #802929, #f0e39d , #5c9e4f);
     background-color: #f2f3cd;
     height: 100vh;
     width: 100%;
@@ -17,14 +18,49 @@ body {
     align-items: center;
 }
 
-#game-container {
+#container {
     position: relative;
-    height: 98%;
+    height: 100%;
     width: 100%;
     background-color: #f0e39d;
+}
+
+#game-container {
+    position: absolute;
+    width: 100%;
+    height: calc(98% - 60px);
     border-radius: 5px;
-    overflow: hidden;
+    background-color: #e8f15c;
     outline: 5px solid #333;
+    overflow: hidden;
+}
+
+@media (max-width: 767px) {
+    #container {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    #container {
+        width: 80%;
+    }
+}
+@media (min-width: 1024px) {
+    #container {
+        width: 80%;
+    }
+}
+
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 25px;
+    height: 60px;
+    font-size: large;
+    font-weight: bold;
+    color: #860303;
 }
 
 #start-page {
@@ -45,10 +81,10 @@ body {
 #board {
     position: absolute;
     bottom: 20px;
-    width: 200px;
+    width: 15%;
     left: calc(50% - 200px / 2);
     height: 20px;
-    background: linear-gradient(to right, #802929 50%, #5c9e4f 50%);
+    background: linear-gradient(to right, #802929, #f0e39d , #5c9e4f);
     border-radius: 10px;
 }
 #ball {
@@ -82,7 +118,7 @@ body {
 
 .button {
     width: 150px;
-    padding: 20px;
+    padding: 10px 20px;
     background-color: #333;
     border-radius: 10px;
     color: #fff;
@@ -100,29 +136,18 @@ body {
 }
 
 #pause-button {
-    position: absolute;
-    display: none;
-    margin: 20px 0 0 20px;
+    visibility: hidden;
     width: 50px;
+    height: 40px;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .button:hover {
     background-color: #000;
 }
 
-@media (max-width: 767px) {
-    #game-container {
-        width: 100%;
-    }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-    #game-container {
-        width: 75%;
-    }
-}
-@media (min-width: 1024px) {
-    #game-container {
-        width: 50%;
-    }
+#score, #level {
+    font-size: x-large;
+    font-weight: bolder;
 }
