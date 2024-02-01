@@ -46,11 +46,6 @@ body {
         width: 80%;
     }
 }
-@media (min-width: 1024px) {
-    #container {
-        width: 80%;
-    }
-}
 
 #header {
     display: flex;

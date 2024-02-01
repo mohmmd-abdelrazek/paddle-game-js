@@ -189,5 +189,3 @@ document.getElementById("restart-button").addEventListener("click", startGame);
 document.getElementById("pause-button").addEventListener("click", pauseGame);
 document.getElementById("cancel-button").addEventListener("click", cancelGame);
 
-
-console.log((98765%9));
